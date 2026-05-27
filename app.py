@@ -1,8 +1,10 @@
 import streamlit as st
+import pandas as pd
+from services.notion import get_tasks
 
-st.title("Task Harbor AI")
+st.title("🚀 Task Harbor AI")
 
-question = st.text_input("Ask a question")
+if st.button("Load Tasks"):
+    tasks = get_tasks()
 
-if question:
-    st.write(f"You asked: {question}")
+    st.dataframe(pd.DataFrame(tasks))
