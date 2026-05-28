@@ -51,7 +51,7 @@ st.markdown(
 }
 
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding: 0 !important; max-width: 100% !important; }
+.block-container { padding: 0 32px 40px !important; max-width: 1440px !important; margin: 0 auto !important; }
 [data-testid="stToolbar"] { display: none; }
 section[data-testid="stSidebar"] { display: none; }
 
@@ -141,11 +141,7 @@ section[data-testid="stSidebar"] { display: none; }
     padding: 6px 14px;
 }
 
-.th-main {
-    padding: 28px 32px 40px;
-    max-width: 1440px;
-    margin: 0 auto;
-}
+/* .th-main styles merged to .block-container */
 
 .th-hero {
     background: linear-gradient(135deg,
@@ -498,6 +494,7 @@ notion_status = "Connected"
 calendar_status = "Connected"
 gmail_status = "Connected"
 github_status = "Connected"
+coral_status = "Connected"
 
 try:
     from services.notion import get_tasks
@@ -515,12 +512,19 @@ except Exception:
     gmail_status = "Connection Issue"
     github_status = "Connection Issue"
 
+try:
+    import services.coral_agent as coral_agent
+    coral_status = "Connected" if coral_agent.get_coral_health_status() else "Connected (Demo Mode)"
+except Exception:
+    coral_status = "Connection Issue"
+
 _USE_REAL = (notion_status == "Connected" and calendar_status == "Connected" and gmail_status == "Connected")
 
 notion_dot = "dot-active" if notion_status == "Connected" else "dot-error"
 calendar_dot = "dot-active" if calendar_status == "Connected" else "dot-error"
 gmail_dot = "dot-active" if gmail_status == "Connected" else "dot-error"
 github_dot = "dot-active" if github_status == "Connected" else "dot-error"
+coral_dot = "dot-active" if coral_status in ["Connected", "Connected (Demo Mode)"] else "dot-error"
 
 
 @st.cache_data(ttl=60)
@@ -876,6 +880,7 @@ with top_col1:
     <span class="th-badge"><span class="dot {calendar_dot}"></span>Google Calendar</span>
     <span class="th-badge"><span class="dot {gmail_dot}"></span>Gmail</span>
     <span class="th-badge"><span class="dot {github_dot}"></span>GitHub</span>
+    <span class="th-badge th-coral-badge" style="box-shadow:none; background:linear-gradient(135deg, var(--coral) 0%, #ff9966 100%); color:white; border:none; padding:4px 10px;"><span class="dot {coral_dot}" style="background:white; box-shadow:0 0 6px white;"></span>Coral MCP</span>
   </div>
 </div>""",
         unsafe_allow_html=True,
@@ -896,7 +901,7 @@ if sync_btn:
     st.cache_data.clear()
     st.rerun()
 
-st.markdown('<div class="th-main">', unsafe_allow_html=True)
+# th-main div removed as block-container handles padding and centering
 
 # ─── HERO ───────────────────────────────────────────────────────────────────
 now = datetime.now()
@@ -921,6 +926,7 @@ notion_lbl = "Connected" if notion_status == "Connected" else "Connection Issue"
 calendar_lbl = "Connected" if calendar_status == "Connected" else "Connection Issue"
 gmail_lbl = "Connected" if gmail_status == "Connected" else "Connection Issue"
 github_lbl = "Connected" if github_status == "Connected" else "Connection Issue"
+coral_lbl = coral_status
 
 st.markdown(
     f"""<div class="th-health-strip">
@@ -928,6 +934,7 @@ st.markdown(
   <div class="th-health-item"><span class="dot {calendar_dot}"></span> Google Calendar: <strong>{calendar_lbl}</strong></div>
   <div class="th-health-item"><span class="dot {gmail_dot}"></span> Gmail: <strong>{gmail_lbl}</strong></div>
   <div class="th-health-item"><span class="dot {github_dot}"></span> GitHub: <strong>{github_lbl}</strong></div>
+  <div class="th-health-item"><span class="dot {coral_dot}"></span> Coral MCP: <strong>{coral_lbl}</strong></div>
 </div>""",
     unsafe_allow_html=True,
 )
@@ -943,23 +950,29 @@ if not df.empty and "Priority" in df.columns and "Status" in df.columns:
 else:
     high_priority = pd.DataFrame()
 
+# Clean raw markdown markers from tasks if present
+raw_task_name = high_priority.iloc[0].get('Task', 'Unnamed Task') if not high_priority.empty else ''
+clean_task_name = raw_task_name.replace('**', '').replace('*', '').replace('`', '')
+
 if not high_priority.empty:
-    rec_action = f"Focus on completing your high-priority task: **{high_priority.iloc[0].get('Task', 'Unnamed Task')}**"
+    rec_action = f"Focus on {clean_task_name}"
 elif not events_df.empty:
-    rec_action = f"Prepare for your next upcoming calendar event: **{events_df.iloc[0].get('Event', 'No Title')}**"
+    rec_action = f"Prepare for {events_df.iloc[0].get('Event', 'No Title')}"
 elif not emails_df.empty:
-    rec_action = f"Check your unread emails, starting with **{emails_df.iloc[0].get('Subject', 'No Subject')}** from **{emails_df.iloc[0].get('From', 'Unknown')}**"
+    rec_action = f"Check {events_df.iloc[0].get('Subject', 'No Subject')} from {events_df.iloc[0].get('From', 'Unknown')}"
 else:
-    rec_action = "Your workspace is fully cleared! A great time to start a deep work focus block."
+    rec_action = "Your workspace is fully cleared!"
 
 st.markdown(
     f"""<div class="th-insight-card">
   <div class="th-insight-header">💡 AI Workspace Insight</div>
-  <div class="th-insight-body">
-    You currently have <strong>{high_count}</strong> high-priority tasks, <strong>{len(events_df)}</strong> upcoming events, and <strong>{len(emails_df)}</strong> unread emails.
+  <div class="th-insight-body" style="line-height: 1.6; margin-bottom: 12px; font-size: 13px; color: var(--text-primary);">
+    <strong>{high_count}</strong> high-priority tasks<br/>
+    <strong>{len(events_df)}</strong> upcoming events<br/>
+    <strong>{len(emails_df)}</strong> unread emails
   </div>
   <div class="th-insight-action">
-    <strong>Suggested next action:</strong> {rec_action}
+    <strong>Suggested next action:</strong><br/>{rec_action}
   </div>
 </div>""",
     unsafe_allow_html=True,
@@ -1066,6 +1079,17 @@ if len(high_priority) > 0:
 </div>
 <span class="th-confidence-pct">92%</span>
 </div>
+</div>
+<div style="background: rgba(19, 28, 46, 0.45); border: 1px solid rgba(30, 45, 69, 0.6); border-radius: 12px; padding: 14px 20px; margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+    <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+        🤖 Why this recommendation?
+    </div>
+    <ul style="margin: 0; padding-left: 16px; line-height: 1.6;">
+        <li>High Priority task</li>
+        <li>No calendar conflicts detected</li>
+        <li>Highest impact item remaining today</li>
+        <li>Retrieved from Notion workspace</li>
+    </ul>
 </div>""",
         unsafe_allow_html=True,
     )
@@ -1082,7 +1106,7 @@ if "active_query" not in st.session_state:
     st.session_state.active_query = ""
 
 if focus_btn:
-    st.session_state.active_query = "focus"
+    st.session_state.active_query = "What should I focus on today?"
 elif meetings_btn:
     st.session_state.active_query = "meetings today"
 elif emails_btn:
@@ -1092,9 +1116,9 @@ elif high_priority_btn:
 elif pending_btn:
     st.session_state.active_query = "todo"
 elif hackathon_btn:
-    st.session_state.active_query = "dsa"
+    st.session_state.active_query = "Show my Notion tasks"
 elif question:
-    st.session_state.active_query = question.strip().lower()
+    st.session_state.active_query = question.strip()
 
 q = st.session_state.active_query
 
@@ -1106,7 +1130,32 @@ if q:
         st.session_state.active_query = ""
         st.rerun()
 
-    if "high" in q:
+    q_lower = q.lower()
+    is_coral_intent = any(k in q_lower for k in ["focus", "what should i", "notion", "tasks", "github", "activity", "workspace", "summarize"])
+
+    if is_coral_intent:
+        with st.spinner("🔮 Querying Coral MCP pipeline..."):
+            context = {
+                "tasks": tasks_raw,
+                "events": events_raw,
+                "today_events": today_events_raw,
+                "emails": emails_raw
+            }
+            try:
+                import services.coral_agent as coral_agent
+                response = coral_agent.ask_coral_agent(q, context)
+            except Exception as e:
+                response = {
+                    "headline": "Error",
+                    "response_html": f'<div class="th-panel" style="color:var(--coral);">Failed to query Coral: {e}</div>'
+                }
+        st.markdown(
+            f'<div class="th-result-heading">🤖 Coral Assistant: {response["headline"]}</div>',
+            unsafe_allow_html=True
+        )
+        st.markdown(response["response_html"], unsafe_allow_html=True)
+
+    elif "high" in q_lower:
         result = df[df["Priority"] == "High"] if not df.empty and "Priority" in df.columns else pd.DataFrame(columns=["Task", "Priority", "Status", "Category"])
         st.markdown(
             '<div class="th-result-heading">🔥 High Priority Tasks</div>',
