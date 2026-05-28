@@ -167,6 +167,8 @@ Built as a solo project during the Coral Hackathon.
 
 ---
 
-Built in public during the Coral Hackathon.
+## Acknowledgements
 
-@withcoral @WeMakeDevs
+Built during the Coral Hackathon 2026.
+
+Special thanks to the Coral community and WeMakeDevs for creating opportunities for builders to experiment, learn, and ship real products.
