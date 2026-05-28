@@ -16,7 +16,7 @@ st.set_page_config(
 st.markdown(
     """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -40,8 +40,8 @@ st.markdown(
     --text-primary:  #e8edf5;
     --text-secondary:#8b9ab5;
     --text-muted:    #4a5870;
-    --font:          'Sora', sans-serif;
-    --mono:          'DM Mono', monospace;
+    --font:          'Outfit', sans-serif;
+    --mono:          'JetBrains Mono', monospace;
 }
 
 .stApp {
@@ -116,8 +116,21 @@ section[data-testid="stSidebar"] { display: none; }
 .th-badge .dot {
     width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--teal);
-    box-shadow: 0 0 6px var(--teal);
+    display: inline-block;
+    animation: pulse 1.8s infinite ease-in-out;
+}
+.th-badge .dot.dot-active {
+    background: var(--teal) !important;
+    box-shadow: 0 0 6px var(--teal) !important;
+}
+.th-badge .dot.dot-error {
+    background: var(--coral) !important;
+    box-shadow: 0 0 6px var(--coral) !important;
+}
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
 }
 .th-coral-badge {
     background: linear-gradient(135deg, var(--coral) 0%, #ff9966 100%);
@@ -160,19 +173,25 @@ section[data-testid="stSidebar"] { display: none; }
 .th-hero-date { font-size: 12px; color: var(--text-muted); font-family: var(--mono); margin-top: 2px; }
 
 .th-metric-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(19, 28, 46, 0.45) !important;
+    border: 1px solid rgba(30, 45, 69, 0.6) !important;
     border-radius: 16px;
-    padding: 22px 24px;
+    padding: 24px 28px;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s, transform 0.15s;
-    height: 120px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    height: auto;
+    min-height: 124px;
+    cursor: pointer;
 }
-.th-metric-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
-.th-metric-num { font-size: 40px; font-weight: 800; font-family: var(--mono); letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
-.th-metric-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-.th-metric-icon { position: absolute; top: 20px; right: 20px; font-size: 20px; opacity: 0.5; }
+.th-metric-card:hover {
+    border-color: rgba(255, 107, 71, 0.35) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 107, 71, 0.05);
+}
+.th-metric-num { font-size: 44px; font-weight: 900; font-family: var(--mono); letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+.th-metric-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); }
+.th-metric-icon { position: absolute; top: 24px; right: 24px; font-size: 24px; opacity: 0.85; filter: drop-shadow(0 0 8px currentColor); }
 .th-metric-coral .th-metric-num { color: var(--coral); }
 .th-metric-teal  .th-metric-num { color: var(--teal); }
 .th-metric-blue  .th-metric-num { color: var(--blue); }
@@ -188,16 +207,22 @@ section[data-testid="stSidebar"] { display: none; }
 }
 
 .th-search-wrap {
-    background: var(--bg-card);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 6px 6px 16px;
-    margin-bottom: 20px;
-    transition: border-color 0.2s;
+    background: rgba(19, 28, 46, 0.65) !important;
+    border: 1.5px solid rgba(255, 107, 71, 0.25) !important;
+    border-radius: 20px;
+    padding: 16px 20px 24px;
+    margin-bottom: 24px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 0 20px rgba(255, 107, 71, 0.05);
+}
+.th-search-wrap:hover {
+    border-color: rgba(255, 107, 71, 0.5) !important;
+    box-shadow: 0 0 25px rgba(255, 107, 71, 0.15);
+    transform: translateY(-1px);
 }
 .th-search-wrap:focus-within {
-    border-color: var(--coral);
-    box-shadow: 0 0 0 3px var(--coral-glow);
+    border-color: var(--coral) !important;
+    box-shadow: 0 0 30px rgba(255, 107, 71, 0.3) !important;
 }
 .th-search-header {
     display: flex;
@@ -259,12 +284,25 @@ section[data-testid="stSidebar"] { display: none; }
 .th-confidence-bar-fill { height: 100%; background: linear-gradient(90deg, var(--coral), #ff9966); border-radius: 2px; box-shadow: 0 0 6px var(--coral-glow); }
 .th-confidence-pct { font-family: var(--mono); font-size: 11px; color: var(--coral); min-width: 36px; text-align: right; }
 
-.th-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; height: 100%; }
+.th-panel {
+    background: rgba(19, 28, 46, 0.45) !important;
+    border: 1px solid rgba(30, 45, 69, 0.6) !important;
+    border-radius: 16px;
+    padding: 20px;
+    height: 100%;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.th-panel:hover {
+    border-color: rgba(79, 142, 247, 0.35) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
 .th-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .th-panel-title { font-size: 13px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 7px; }
 .th-panel-count { font-size: 11px; font-weight: 500; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; padding: 2px 8px; color: var(--text-muted); font-family: var(--mono); }
 
-.th-task-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.th-task-row { display: flex; align-items: center; gap: 10px; padding: 10px 8px; border-bottom: 1px solid var(--border); transition: background 0.15s ease, padding-left 0.15s ease; border-radius: 6px; }
+.th-task-row:hover { background: rgba(255, 107, 71, 0.03) !important; padding-left: 12px !important; }
 .th-task-row:last-child { border-bottom: none; }
 .th-task-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .th-task-dot.high   { background: var(--coral); box-shadow: 0 0 6px var(--coral-glow); }
@@ -277,14 +315,16 @@ section[data-testid="stSidebar"] { display: none; }
 .th-status-badge.inprogress  { background: var(--blue-subtle); color: var(--blue); border: 1px solid rgba(79,142,247,0.2); }
 .th-status-badge.done        { background: var(--teal-subtle); color: var(--teal); border: 1px solid rgba(0,212,170,0.2); }
 
-.th-event-row { display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.th-event-row { display: flex; align-items: flex-start; gap: 12px; padding: 11px 8px; border-bottom: 1px solid var(--border); transition: background 0.15s ease, padding-left 0.15s ease; border-radius: 6px; }
+.th-event-row:hover { background: rgba(79, 142, 247, 0.04) !important; padding-left: 12px !important; }
 .th-event-row:last-child { border-bottom: none; }
 .th-event-time-block { min-width: 58px; text-align: center; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 5px 6px; flex-shrink: 0; }
 .th-event-time { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--blue); white-space: nowrap; }
 .th-event-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
 .th-event-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
-.th-email-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.th-email-row { display: flex; align-items: center; gap: 10px; padding: 10px 8px; border-bottom: 1px solid var(--border); transition: background 0.15s ease, padding-left 0.15s ease; border-radius: 6px; }
+.th-email-row:hover { background: rgba(0, 212, 170, 0.03) !important; padding-left: 12px !important; }
 .th-email-row:last-child { border-bottom: none; }
 .th-email-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--coral), #ff9966); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; flex-shrink: 0; }
 .th-email-from { font-size: 12px; font-weight: 600; color: var(--text-primary); }
@@ -379,6 +419,73 @@ section[data-testid="stSidebar"] { display: none; }
 hr { border-color: var(--border) !important; margin: 20px 0 !important; }
 [data-testid="stHorizontalBlock"] { gap: 12px !important; }
 .th-spacer { height: 20px; }
+
+/* AI Insight Card */
+.th-insight-card {
+    background: linear-gradient(135deg, rgba(255, 107, 71, 0.08) 0%, rgba(19, 28, 46, 0.7) 100%) !important;
+    border: 1px solid rgba(255, 107, 71, 0.25) !important;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+}
+.th-insight-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--coral);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.th-insight-body {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+.th-insight-action {
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: rgba(7, 9, 15, 0.45);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 3px solid var(--coral);
+}
+
+/* Service Health Strip under Hero */
+.th-health-strip {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(19, 28, 46, 0.4) !important;
+    border: 1px solid rgba(30, 45, 69, 0.6) !important;
+    border-radius: 12px;
+    padding: 12px 24px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+.th-health-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Style header topbar stHorizontalBlock */
+div[data-testid="stHorizontalBlock"]:has(button[key="header_sync_btn"]) {
+    background: rgba(13, 17, 23, 0.95) !important;
+    border-bottom: 1px solid var(--border) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 12px 32px !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+}
 </style>
 """,
     unsafe_allow_html=True,
@@ -386,16 +493,34 @@ hr { border-color: var(--border) !important; margin: 20px 0 !important; }
 
 
 # ─── SERVICE IMPORTS WITH MOCK FALLBACK ─────────────────────────────────────
-# FIX 5: Real services are attempted first; mock data is only used if imports fail.
-# Remove the try/except fallback block once your real services are confirmed working.
+# ─── SERVICE IMPORTS WITH HEALTH STATUS ───
+notion_status = "Connected"
+calendar_status = "Connected"
+gmail_status = "Connected"
+github_status = "Connected"
+
 try:
     from services.notion import get_tasks
-    from services.google_calendar import get_upcoming_events, get_todays_events
-    from services.gmail import get_unread_emails
+except Exception:
+    notion_status = "Connection Issue"
 
-    _USE_REAL = True
-except ImportError:
-    _USE_REAL = False
+try:
+    from services.google_calendar import get_upcoming_events, get_todays_events
+except Exception:
+    calendar_status = "Connection Issue"
+
+try:
+    from services.gmail import get_unread_emails
+except Exception:
+    gmail_status = "Connection Issue"
+    github_status = "Connection Issue"
+
+_USE_REAL = (notion_status == "Connected" and calendar_status == "Connected" and gmail_status == "Connected")
+
+notion_dot = "dot-active" if notion_status == "Connected" else "dot-error"
+calendar_dot = "dot-active" if calendar_status == "Connected" else "dot-error"
+gmail_dot = "dot-active" if gmail_status == "Connected" else "dot-error"
+github_dot = "dot-active" if github_status == "Connected" else "dot-error"
 
 
 @st.cache_data(ttl=60)
@@ -418,8 +543,54 @@ def load_today_events():
     return get_todays_events()
 
 
-if _USE_REAL:
+import time
 
+# To show loading animations during demo syncs
+if "sync_success" not in st.session_state:
+    st.session_state.sync_success = False
+
+if "workspace_loaded" not in st.session_state:
+    st.session_state.workspace_loaded = False
+
+# Render toast alert on successful reload
+if st.session_state.get("sync_success"):
+    st.toast("Workspace services successfully synchronized!", icon="🔄")
+    st.session_state.sync_success = False
+
+if not st.session_state.workspace_loaded:
+    if _USE_REAL:
+        try:
+            with st.status("⚡ Syncing Workspace Services...", expanded=True) as status:
+                status.write("🔍 Syncing Notion Tasks...")
+                tasks_raw = load_tasks()
+                status.write("📅 Syncing Google Calendar Events...")
+                events_raw = load_events()
+                today_events_raw = load_today_events()
+                status.write("📧 Syncing Gmail Inbox & GitHub...")
+                emails_raw = load_emails()
+                status.write("🚀 Building Unified Workspace...")
+                status.update(label="✅ Workspace Successfully Synced!", state="complete", expanded=False)
+            st.session_state.workspace_loaded = True
+        except Exception as e:
+            _USE_REAL = False
+            notion_status = "Connection Issue"
+            calendar_status = "Connection Issue"
+            gmail_status = "Connection Issue"
+            github_status = "Connection Issue"
+
+    if not _USE_REAL:
+        with st.status("⚡ Syncing Sandbox Services...", expanded=True) as status:
+            status.write("🔍 Syncing Mock Notion Tasks...")
+            time.sleep(0.4)
+            status.write("📅 Syncing Mock Google Calendar Events...")
+            time.sleep(0.4)
+            status.write("📧 Syncing Mock Gmail Inbox & GitHub...")
+            time.sleep(0.4)
+            status.write("🚀 Building Mock Workspace...")
+            status.update(label="✅ Sandbox Workspace Loaded!", state="complete", expanded=False)
+        st.session_state.workspace_loaded = True
+
+if _USE_REAL:
     tasks_raw = load_tasks()
     events_raw = load_events()
     today_events_raw = load_today_events()
@@ -546,22 +717,20 @@ def render_task_cards(data_df, container_class="th-panel"):
         dot_cls = _e(row.get("Priority", "")).lower()
         status_raw = _e(row.get("Status", ""))
         status_cls = status_raw.lower().replace(" ", "")
-        rows += f"""
-        <div class="th-task-row">
-          <div class="th-task-dot {dot_cls}"></div>
-          <div class="th-task-name">{_e(row.get('Task',''))}</div>
-          <div class="th-task-category">{_e(row.get('Category',''))}</div>
-          <div class="th-status-badge {status_cls}">{status_raw}</div>
-        </div>"""
+        rows += f"""<div class="th-task-row">
+<div class="th-task-dot {dot_cls}"></div>
+<div class="th-task-name">{_e(row.get('Task',''))}</div>
+<div class="th-task-category">{_e(row.get('Category',''))}</div>
+<div class="th-status-badge {status_cls}">{status_raw}</div>
+</div>"""
     st.markdown(
-        f"""
-    <div class="{container_class}">
-      <div class="th-panel-header">
-        <div class="th-panel-title">📋 Tasks</div>
-        <span class="th-panel-count">{len(data_df)}</span>
-      </div>
-      {rows}
-    </div>""",
+        f"""<div class="{container_class}">
+<div class="th-panel-header">
+<div class="th-panel-title">📋 Tasks</div>
+<span class="th-panel-count">{len(data_df)}</span>
+</div>
+{rows}
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -575,25 +744,23 @@ def render_event_cards(data_df, title="📅 Events", container_class="th-panel")
         return
     rows = ""
     for _, row in data_df.iterrows():
-        rows += f"""
-        <div class="th-event-row">
-          <div class="th-event-time-block">
-            <div class="th-event-time">{_e(row.get('Start',''))}</div>
-          </div>
-          <div style="min-width:0;">
-            <div class="th-event-name">{_e(row.get('Event',''))}</div>
-            <div class="th-event-meta">{_e(row.get('Duration',''))} &nbsp;·&nbsp; {_e(row.get('Type',''))}</div>
-          </div>
-        </div>"""
+        rows += f"""<div class="th-event-row">
+<div class="th-event-time-block">
+<div class="th-event-time">{_e(row.get('Start',''))}</div>
+</div>
+<div style="min-width:0;">
+<div class="th-event-name">{_e(row.get('Event',''))}</div>
+<div class="th-event-meta">{_e(row.get('Duration',''))} &nbsp;·&nbsp; {_e(row.get('Type',''))}</div>
+</div>
+</div>"""
     st.markdown(
-        f"""
-    <div class="{container_class}">
-      <div class="th-panel-header">
-        <div class="th-panel-title">{title}</div>
-        <span class="th-panel-count">{len(data_df)}</span>
-      </div>
-      {rows}
-    </div>""",
+        f"""<div class="{container_class}">
+<div class="th-panel-header">
+<div class="th-panel-title">{title}</div>
+<span class="th-panel-count">{len(data_df)}</span>
+</div>
+{rows}
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -609,25 +776,23 @@ def render_email_cards(data_df, title="📧 Inbox", container_class="th-panel"):
     for _, row in data_df.iterrows():
         sender = _e(row.get("From", "?"))
         avatar = sender[0].upper() if sender else "?"
-        rows += f"""
-        <div class="th-email-row">
-          <div class="th-unread-dot"></div>
-          <div class="th-email-avatar">{avatar}</div>
-          <div style="flex:1;min-width:0;">
-            <div class="th-email-from">{sender}</div>
-            <div class="th-email-subject">{_e(row.get('Subject',''))}</div>
-          </div>
-          <div style="font-size:10px;color:var(--text-muted);font-family:var(--mono);flex-shrink:0;">{_e(row.get('Time',''))}</div>
-        </div>"""
+        rows += f"""<div class="th-email-row">
+<div class="th-unread-dot"></div>
+<div class="th-email-avatar">{avatar}</div>
+<div style="flex:1;min-width:0;">
+<div class="th-email-from">{sender}</div>
+<div class="th-email-subject">{_e(row.get('Subject',''))}</div>
+</div>
+<div style="font-size:10px;color:var(--text-muted);font-family:var(--mono);flex-shrink:0;">{_e(row.get('Time',''))}</div>
+</div>"""
     st.markdown(
-        f"""
-    <div class="{container_class}">
-      <div class="th-panel-header">
-        <div class="th-panel-title">{title}</div>
-        <span class="th-panel-count">{len(data_df)}</span>
-      </div>
-      {rows}
-    </div>""",
+        f"""<div class="{container_class}">
+<div class="th-panel-header">
+<div class="th-panel-title">{title}</div>
+<span class="th-panel-count">{len(data_df)}</span>
+</div>
+{rows}
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -642,21 +807,19 @@ def render_github_cards(data_df):
         return
     rows = ""
     for _, row in data_df.iterrows():
-        rows += f"""
-        <div class="th-notif-row">
-          <div class="th-notif-icon">🐙</div>
-          <div class="th-notif-subject">{_e(row.get('Subject',''))}</div>
-          <div class="th-notif-time">{_e(row.get('Time',''))}</div>
-        </div>"""
+        rows += f"""<div class="th-notif-row">
+<div class="th-notif-icon">🐙</div>
+<div class="th-notif-subject">{_e(row.get('Subject',''))}</div>
+<div class="th-notif-time">{_e(row.get('Time',''))}</div>
+</div>"""
     st.markdown(
-        f"""
-    <div class="th-panel">
-      <div class="th-panel-header">
-        <div class="th-panel-title">🐙 GitHub Notifications</div>
-        <span class="th-panel-count">{len(data_df)}</span>
-      </div>
-      {rows}
-    </div>""",
+        f"""<div class="th-panel">
+<div class="th-panel-header">
+<div class="th-panel-title">🐙 GitHub Notifications</div>
+<span class="th-panel-count">{len(data_df)}</span>
+</div>
+{rows}
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -665,29 +828,27 @@ def render_focus_summary(high_priority_df, today_events_df_, emails_df_):
     """Render the focus summary with stat cards and an action plan — no st.metric()."""
     # FIX 3: Replaced st.metric() with themed HTML stat cards
     st.markdown(
-        f"""
-    <div class="th-focus-grid">
-      <div class="th-focus-stat">
-        <div class="th-focus-stat-num" style="color:var(--coral);">{len(high_priority_df)}</div>
-        <div class="th-focus-stat-label">High Priority Tasks</div>
-      </div>
-      <div class="th-focus-stat">
-        <div class="th-focus-stat-num" style="color:var(--teal);">{len(today_events_df_)}</div>
-        <div class="th-focus-stat-label">Events Today</div>
-      </div>
-      <div class="th-focus-stat">
-        <div class="th-focus-stat-num" style="color:var(--blue);">{len(emails_df_)}</div>
-        <div class="th-focus-stat-label">Unread Emails</div>
-      </div>
-    </div>
-    <div class="th-action-plan">
-      <div class="th-action-plan-title">Recommended Action Plan</div>
-      <div class="th-action-step"><span class="th-action-step-num">01</span>Complete high-priority pending tasks</div>
-      <div class="th-action-step"><span class="th-action-step-num">02</span>Prepare for today's calendar events</div>
-      <div class="th-action-step"><span class="th-action-step-num">03</span>Review important unread emails</div>
-      <div class="th-action-step"><span class="th-action-step-num">04</span>Check GitHub notifications and PR updates</div>
-    </div>
-    """,
+        f"""<div class="th-focus-grid">
+<div class="th-focus-stat">
+<div class="th-focus-stat-num" style="color:var(--coral);">{len(high_priority_df)}</div>
+<div class="th-focus-stat-label">High Priority Tasks</div>
+</div>
+<div class="th-focus-stat">
+<div class="th-focus-stat-num" style="color:var(--teal);">{len(today_events_df_)}</div>
+<div class="th-focus-stat-label">Events Today</div>
+</div>
+<div class="th-focus-stat">
+<div class="th-focus-stat-num" style="color:var(--blue);">{len(emails_df_)}</div>
+<div class="th-focus-stat-label">Unread Emails</div>
+</div>
+</div>
+<div class="th-action-plan">
+<div class="th-action-plan-title">Recommended Action Plan</div>
+<div class="th-action-step"><span class="th-action-step-num">01</span>Complete high-priority pending tasks</div>
+<div class="th-action-step"><span class="th-action-step-num">02</span>Prepare for today's calendar events</div>
+<div class="th-action-step"><span class="th-action-step-num">03</span>Review important unread emails</div>
+<div class="th-action-step"><span class="th-action-step-num">04</span>Check GitHub notifications and PR updates</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -701,24 +862,39 @@ def render_focus_summary(high_priority_df, today_events_df_, emails_df_):
 
 
 # ─── TOPBAR ─────────────────────────────────────────────────────────────────
-# FIX 1: unsafe_allow_html=True on every st.markdown with HTML
-st.markdown(
-    """
-<div class="th-topbar">
-  <div class="th-logo">
+# Create a two-column layout for the topbar
+top_col1, top_col2 = st.columns([7.5, 2.5])
+with top_col1:
+    st.markdown(
+        f"""<div class="th-topbar-logo-side" style="display:flex;align-items:center;height:42px;">
+  <div class="th-logo" style="margin-right:20px;">
     <div class="th-logo-icon">🚀</div>
     Task Harbor AI
   </div>
-  <div class="th-badges">
-    <span class="th-badge"><span class="dot"></span>Notion</span>
-    <span class="th-badge"><span class="dot"></span>Google Calendar</span>
-    <span class="th-badge"><span class="dot"></span>Gmail</span>
-    <span class="th-badge th-coral-badge">⚡ Powered by Coral</span>
+  <div class="th-badges" style="display:flex;gap:8px;">
+    <span class="th-badge"><span class="dot {notion_dot}"></span>Notion</span>
+    <span class="th-badge"><span class="dot {calendar_dot}"></span>Google Calendar</span>
+    <span class="th-badge"><span class="dot {gmail_dot}"></span>Gmail</span>
+    <span class="th-badge"><span class="dot {github_dot}"></span>GitHub</span>
   </div>
-</div>
-""",
-    unsafe_allow_html=True,
-)
+</div>""",
+        unsafe_allow_html=True,
+    )
+with top_col2:
+    # Dynamic label based on status
+    sync_label = "🔄 Sync"
+    if not st.session_state.get("workspace_loaded"):
+        sync_label = "🔄 Syncing..."
+    elif st.session_state.get("sync_success"):
+        sync_label = "✅ Synced"
+
+    sync_btn = st.button(sync_label, key="header_sync_btn", use_container_width=True)
+
+if sync_btn:
+    st.session_state.workspace_loaded = False
+    st.session_state.sync_success = True
+    st.cache_data.clear()
+    st.rerun()
 
 st.markdown('<div class="th-main">', unsafe_allow_html=True)
 
@@ -732,58 +908,101 @@ greeting = (
 date_str = now.strftime("%A, %B %d · %I:%M %p")
 
 st.markdown(
-    f"""
-<div class="th-hero">
+    f"""<div class="th-hero">
   <div class="th-hero-title">{greeting}, Sathish 👋</div>
   <div class="th-hero-subtitle">Here's your productivity snapshot — you have high-priority tasks waiting.</div>
   <div class="th-hero-date">{date_str}</div>
-</div>
-""",
+</div>""",
+    unsafe_allow_html=True,
+)
+
+# ─── SERVICE HEALTH STRIP ───────────────────────────────────────────────────
+notion_lbl = "Connected" if notion_status == "Connected" else "Connection Issue"
+calendar_lbl = "Connected" if calendar_status == "Connected" else "Connection Issue"
+gmail_lbl = "Connected" if gmail_status == "Connected" else "Connection Issue"
+github_lbl = "Connected" if github_status == "Connected" else "Connection Issue"
+
+st.markdown(
+    f"""<div class="th-health-strip">
+  <div class="th-health-item"><span class="dot {notion_dot}"></span> Notion: <strong>{notion_lbl}</strong></div>
+  <div class="th-health-item"><span class="dot {calendar_dot}"></span> Google Calendar: <strong>{calendar_lbl}</strong></div>
+  <div class="th-health-item"><span class="dot {gmail_dot}"></span> Gmail: <strong>{gmail_lbl}</strong></div>
+  <div class="th-health-item"><span class="dot {github_dot}"></span> GitHub: <strong>{github_lbl}</strong></div>
+</div>""",
+    unsafe_allow_html=True,
+)
+
+# ─── AI INSIGHT CARD ────────────────────────────────────────────────────────
+if not df.empty and "Priority" in df.columns:
+    high_count = len(df[df["Priority"] == "High"])
+else:
+    high_count = 0
+
+if not df.empty and "Priority" in df.columns and "Status" in df.columns:
+    high_priority = df[(df["Priority"] == "High") & (df["Status"] == "Todo")]
+else:
+    high_priority = pd.DataFrame()
+
+if not high_priority.empty:
+    rec_action = f"Focus on completing your high-priority task: **{high_priority.iloc[0].get('Task', 'Unnamed Task')}**"
+elif not events_df.empty:
+    rec_action = f"Prepare for your next upcoming calendar event: **{events_df.iloc[0].get('Event', 'No Title')}**"
+elif not emails_df.empty:
+    rec_action = f"Check your unread emails, starting with **{emails_df.iloc[0].get('Subject', 'No Subject')}** from **{emails_df.iloc[0].get('From', 'Unknown')}**"
+else:
+    rec_action = "Your workspace is fully cleared! A great time to start a deep work focus block."
+
+st.markdown(
+    f"""<div class="th-insight-card">
+  <div class="th-insight-header">💡 AI Workspace Insight</div>
+  <div class="th-insight-body">
+    You currently have <strong>{high_count}</strong> high-priority tasks, <strong>{len(events_df)}</strong> upcoming events, and <strong>{len(emails_df)}</strong> unread emails.
+  </div>
+  <div class="th-insight-action">
+    <strong>Suggested next action:</strong> {rec_action}
+  </div>
+</div>""",
     unsafe_allow_html=True,
 )
 
 # ─── METRICS ────────────────────────────────────────────────────────────────
 m1, m2, m3 = st.columns(3)
-high_count = len(df[df["Priority"] == "High"])
+high_count = len(df[df["Priority"] == "High"]) if not df.empty and "Priority" in df.columns else 0
 
 with m1:
     st.markdown(
-        f"""
-    <div class="th-metric-card th-metric-coral">
-      <span class="th-metric-icon">📋</span>
-      <div class="th-metric-num">{len(df)}</div>
-      <div class="th-metric-label">Total Tasks &nbsp;·&nbsp; {high_count} high priority</div>
-    </div>""",
+        f"""<div class="th-metric-card th-metric-coral">
+<span class="th-metric-icon">📋</span>
+<div class="th-metric-num">{len(df)}</div>
+<div class="th-metric-label">Total Tasks &nbsp;·&nbsp; {high_count} high priority</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
 with m2:
     st.markdown(
-        f"""
-    <div class="th-metric-card th-metric-teal">
-      <span class="th-metric-icon">📅</span>
-      <div class="th-metric-num">{len(events_df)}</div>
-      <div class="th-metric-label">Events Today</div>
-    </div>""",
+        f"""<div class="th-metric-card th-metric-teal">
+<span class="th-metric-icon">📅</span>
+<div class="th-metric-num">{len(events_df)}</div>
+<div class="th-metric-label">Events Today</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
 with m3:
     st.markdown(
-        f"""
-    <div class="th-metric-card th-metric-blue">
-      <span class="th-metric-icon">📧</span>
-      <div class="th-metric-num">{len(emails_df)}</div>
-      <div class="th-metric-label">Unread Emails</div>
-    </div>""",
+        f"""<div class="th-metric-card th-metric-blue">
+<span class="th-metric-icon">📧</span>
+<div class="th-metric-num">{len(emails_df)}</div>
+<div class="th-metric-label">Unread Emails</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
 # ─── AI SEARCH ──────────────────────────────────────────────────────────────
 st.markdown('<div class="th-section-label">AI Assistant</div>', unsafe_allow_html=True)
 st.markdown(
-    """
-<div class="th-search-wrap">
+    """<div class="th-search-wrap">
   <div class="th-search-header">
     <div class="th-search-icon">✦</div>
     <div>
@@ -792,55 +1011,62 @@ st.markdown(
     </div>
   </div>
   <div class="th-chips">
-    <span class="th-chip"><span>→</span>What should I focus on today?</span>
-    <span class="th-chip"><span>→</span>Show high priority tasks</span>
-    <span class="th-chip"><span>→</span>What meetings do I have today?</span>
-    <span class="th-chip"><span>→</span>Show GitHub notifications</span>
+    <span class="th-chip"><span>✦</span>What should I focus on today?</span>
+    <span class="th-chip"><span>✦</span>Do I have meetings today?</span>
+    <span class="th-chip"><span>✦</span>Show my high priority tasks</span>
+    <span class="th-chip"><span>✦</span>Summarize my inbox</span>
   </div>
-</div>
-""",
+</div>""",
     unsafe_allow_html=True,
 )
 
-btn_col1, btn_col2, btn_col3, _sp = st.columns([1, 1, 1, 5])
-with btn_col1:
-    focus_btn = st.button("🎯 Focus")
-with btn_col2:
-    github_btn = st.button("🐙 GitHub")
-with btn_col3:
-    meetings_btn = st.button("📅 Meetings")
-
 question = st.text_input(
     label="query",
-    placeholder="What should I work on today?",
+    placeholder="What should I focus on today?",
     label_visibility="collapsed",
 )
 
+st.markdown('<div style="margin-top: 10px; margin-bottom: 20px;"></div>', unsafe_allow_html=True)
+col1, col2, col3, col4, col5, col6 = st.columns([1.1, 1.2, 1.1, 1.0, 1.1, 1.2])
+with col1:
+    focus_btn = st.button("🎯 Focus", use_container_width=True)
+with col2:
+    meetings_btn = st.button("📅 Meetings", use_container_width=True)
+with col3:
+    emails_btn = st.button("📧 Emails", use_container_width=True)
+with col4:
+    high_priority_btn = st.button("🔥 High", use_container_width=True)
+with col5:
+    pending_btn = st.button("📋 Pending", use_container_width=True)
+with col6:
+    hackathon_btn = st.button("🚀 Hackathon", use_container_width=True)
+
 # ─── AI RECOMMENDATION ──────────────────────────────────────────────────────
-high_priority = df[(df["Priority"] == "High") & (df["Status"] == "Todo")]
+if not df.empty and "Priority" in df.columns and "Status" in df.columns:
+    high_priority = df[(df["Priority"] == "High") & (df["Status"] == "Todo")]
+else:
+    high_priority = pd.DataFrame(columns=["Task", "Priority", "Status", "Category"])
 
 if len(high_priority) > 0:
-    task_name = _e(high_priority.iloc[0]["Task"])
-    cat = _e(high_priority.iloc[0]["Category"])
+    task_name = _e(high_priority.iloc[0].get("Task", "Unnamed Task"))
+    cat = _e(high_priority.iloc[0].get("Category", "General"))
     st.markdown(
-        f"""
-    <div class="th-ai-rec">
-      <div class="th-ai-rec-eyebrow">✦ AI Recommendation &nbsp;·&nbsp; Focus Today</div>
-      <div class="th-ai-rec-task">{task_name}</div>
-      <div class="th-ai-rec-reasons">
-        <span class="th-reason-pill priority">🔴 High Priority</span>
-        <span class="th-reason-pill schedule">✓ No Schedule Conflicts</span>
-        <span class="th-reason-pill impact">⚡ Highest Impact Today</span>
-        <span class="th-reason-pill impact" style="background:var(--yellow-subtle);color:var(--yellow);border-color:rgba(245,200,66,0.2);">📂 {cat}</span>
-      </div>
-      <div class="th-confidence-bar-wrap">
-        <div class="th-confidence-bar-bg">
-          <div class="th-confidence-bar-fill" style="width:92%"></div>
-        </div>
-        <span class="th-confidence-pct">92%</span>
-      </div>
-    </div>
-    """,
+        f"""<div class="th-ai-rec">
+<div class="th-ai-rec-eyebrow">✦ AI Recommendation &nbsp;·&nbsp; Focus Today</div>
+<div class="th-ai-rec-task">{task_name}</div>
+<div class="th-ai-rec-reasons">
+<span class="th-reason-pill priority">🔴 High Priority</span>
+<span class="th-reason-pill schedule">✓ No Schedule Conflicts</span>
+<span class="th-reason-pill impact">⚡ Highest Impact Today</span>
+<span class="th-reason-pill impact" style="background:var(--yellow-subtle);color:var(--yellow);border-color:rgba(245,200,66,0.2);">📂 {cat}</span>
+</div>
+<div class="th-confidence-bar-wrap">
+<div class="th-confidence-bar-bg">
+<div class="th-confidence-bar-fill" style="width:92%"></div>
+</div>
+<span class="th-confidence-pct">92%</span>
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -851,24 +1077,37 @@ st.markdown('<div class="th-spacer"></div>', unsafe_allow_html=True)
 # FIX 3: st.metric() replaced with render_focus_summary().
 # Results render directly below the search box — no layout jumps.
 
-# Resolve active query — only one source wins (button > text input)
-q = ""
+# Resolve active query — only one source wins (button > text input) with session state persistence
+if "active_query" not in st.session_state:
+    st.session_state.active_query = ""
+
 if focus_btn:
-    q = "focus"
-elif github_btn:
-    q = "github"
+    st.session_state.active_query = "focus"
 elif meetings_btn:
-    q = "meetings today"
+    st.session_state.active_query = "meetings today"
+elif emails_btn:
+    st.session_state.active_query = "email"
+elif high_priority_btn:
+    st.session_state.active_query = "high"
+elif pending_btn:
+    st.session_state.active_query = "todo"
+elif hackathon_btn:
+    st.session_state.active_query = "dsa"
 elif question:
-    q = question.strip().lower()
+    st.session_state.active_query = question.strip().lower()
+
+q = st.session_state.active_query
 
 
 import time
 
 if q:
+    if st.button("✖ Clear Search"):
+        st.session_state.active_query = ""
+        st.rerun()
 
     if "high" in q:
-        result = df[df["Priority"] == "High"]
+        result = df[df["Priority"] == "High"] if not df.empty and "Priority" in df.columns else pd.DataFrame(columns=["Task", "Priority", "Status", "Category"])
         st.markdown(
             '<div class="th-result-heading">🔥 High Priority Tasks</div>',
             unsafe_allow_html=True,
@@ -876,14 +1115,14 @@ if q:
         render_task_cards(result)
 
     elif "todo" in q:
-        result = df[df["Status"] == "Todo"]
+        result = df[df["Status"] == "Todo"] if not df.empty and "Status" in df.columns else pd.DataFrame(columns=["Task", "Priority", "Status", "Category"])
         st.markdown(
             '<div class="th-result-heading">📋 Todo Tasks</div>', unsafe_allow_html=True
         )
         render_task_cards(result)
 
     elif "dsa" in q:
-        result = df[df["Category"] == "DSA"]
+        result = df[df["Category"] == "DSA"] if not df.empty and "Category" in df.columns else pd.DataFrame(columns=["Task", "Priority", "Status", "Category"])
         st.markdown(
             '<div class="th-result-heading">🧠 DSA Tasks</div>', unsafe_allow_html=True
         )
@@ -896,18 +1135,17 @@ if q:
         if len(events_raw) > 0:
             ev = events_raw[0]
             st.markdown(
-                f"""
-            <div class="th-panel">
-              <div class="th-event-row">
-                <div class="th-event-time-block">
-                  <div class="th-event-time">{_e(ev.get('Start',''))}</div>
-                </div>
-                <div>
-                  <div class="th-event-name">{_e(ev.get('Event',''))}</div>
-                  <div class="th-event-meta">{_e(ev.get('Duration',''))} &nbsp;·&nbsp; {_e(ev.get('Type',''))}</div>
-                </div>
-              </div>
-            </div>""",
+                f"""<div class="th-panel">
+<div class="th-event-row">
+<div class="th-event-time-block">
+<div class="th-event-time">{_e(ev.get('Start',''))}</div>
+</div>
+<div>
+<div class="th-event-name">{_e(ev.get('Event',''))}</div>
+<div class="th-event-meta">{_e(ev.get('Duration',''))} &nbsp;·&nbsp; {_e(ev.get('Type',''))}</div>
+</div>
+</div>
+</div>""",
                 unsafe_allow_html=True,
             )
         else:
@@ -937,9 +1175,12 @@ if q:
         render_event_cards(events_df)
 
     elif "github" in q:
-        github_emails = emails_df[
-            emails_df["From"].str.contains("github", case=False, na=False)
-        ]
+        if not emails_df.empty and "From" in emails_df.columns:
+            github_emails = emails_df[
+                emails_df["From"].str.contains("github", case=False, na=False)
+            ]
+        else:
+            github_emails = pd.DataFrame(columns=["From", "Subject", "Time"])
         render_github_cards(github_emails)
 
     elif "email" in q:
@@ -958,12 +1199,11 @@ if q:
 
     else:
         st.markdown(
-            """
-        <div class="th-panel" style="border-color:rgba(245,200,66,0.2);background:var(--yellow-subtle);">
-          <div style="color:var(--yellow);font-size:13px;font-weight:500;">
-            ⚠️ I don't understand that yet — try asking about tasks, emails, events, or GitHub.
-          </div>
-        </div>""",
+            """<div class="th-panel" style="border-color:rgba(245,200,66,0.2);background:var(--yellow-subtle);">
+<div style="color:var(--yellow);font-size:13px;font-weight:500;">
+⚠️ I don't understand that yet — try asking about tasks, emails, events, or GitHub.
+</div>
+</div>""",
             unsafe_allow_html=True,
         )
 
@@ -973,10 +1213,7 @@ st.markdown('<div class="th-section-label">Workspace</div>', unsafe_allow_html=T
 tab1, tab2, tab3, tab4 = st.tabs(["📋 Tasks", "📅 Calendar", "📧 Emails", "🐙 GitHub"])
 
 with tab1:
-    st.markdown(
-        "<h1 style='color:red'>TASK TEST</h1>",
-        unsafe_allow_html=True
-    )
+    render_task_cards(df)
 
 with tab2:
     render_event_cards(events_df)
@@ -985,7 +1222,10 @@ with tab3:
     render_email_cards(emails_df)
 
 with tab4:
-    github_emails = emails_df[
-        emails_df["From"].str.contains("github", case=False, na=False)
-    ]
+    if not emails_df.empty and "From" in emails_df.columns:
+        github_emails = emails_df[
+            emails_df["From"].str.contains("github", case=False, na=False)
+        ]
+    else:
+        github_emails = pd.DataFrame(columns=["From", "Subject", "Time"])
     render_github_cards(github_emails)
