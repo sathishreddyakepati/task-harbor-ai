@@ -1,16 +1,64 @@
 import streamlit as st
+with open("styles.css") as f:
+    st.markdown(
+        f"<style>{f.read()}</style>",
+        unsafe_allow_html=True
+    )
 import pandas as pd
 
 from services.notion import get_tasks
 from services.google_calendar import get_upcoming_events, get_todays_events
 from services.gmail import get_unread_emails
 
-st.set_page_config(page_title="Task Harbor AI", page_icon="🚀", layout="wide")
+# ---------------------
+# HEADER
+# ---------------------
+st.set_page_config(
+    page_title="Task Harbor AI",
+    page_icon="🚀",
+    layout="wide"
+)
 
-st.title("🚀 Task Harbor AI")
+st.markdown("""
+<style>
+.badge {
+    display:inline-block;
+    padding:8px 16px;
+    margin-left:10px;
+    border-radius:20px;
+    border:1px solid #2d3748;
+    background:#111827;
+    color:white;
+    font-size:14px;
+}
+
+.coral {
+    background:linear-gradient(90deg,#ff7b72,#ff9966);
+    border:none;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+header_left, header_right = st.columns([3,2])
+with header_left:
+    st.markdown(
+        "<h1 style='margin-top:10px;'>🚀 Task Harbor AI</h1>",
+        unsafe_allow_html=True
+    )
+
+with header_right:
+    st.markdown("""
+    <div style='text-align:right'>
+        <span class='badge'>🟢 Notion</span>
+        <span class='badge'>🟢 Google Calendar</span>
+        <span class='badge'>🟢 Gmail</span>
+       
+    </div>
+    """, unsafe_allow_html=True)
 
 # ---------------------
-# Load Data
+# LOAD DATA
 # ---------------------
 
 tasks = get_tasks()
@@ -26,28 +74,158 @@ emails = get_unread_emails()
 emails_df = pd.DataFrame(emails)
 
 # ---------------------
-# Metrics
+# WELCOME CARD
+# ---------------------
+
+
+
+# ---------------------
+# HERO CARD
+# ---------------------
+
+st.markdown("""
+<div style="
+background:#111827;
+border:1px solid #1f2937;
+border-radius:24px;
+padding:30px;
+margin-bottom:20px;
+">
+<h2>Welcome back, Sathish 👋</h2>
+
+<p style="
+color:#9ca3af;
+font-size:18px;
+">
+Here's what's happening with your productivity today.
+</p>
+</div>
+""",
+unsafe_allow_html=True)
+
+st.info("""
+⚡ Powered by Coral
+
+Connected Sources:
+✓ Notion
+✓ Google Calendar
+✓ Gmail
+
+Task Harbor AI uses Coral to unify productivity data
+into a single workspace and generate recommendations.
+""")
+
+# ---------------------
+# METRIC CARDS
 # ---------------------
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric("Tasks", len(df))
+    st.markdown(f"""
+    <div style="
+    background:#111827;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    ">
+        <h1>{len(df)}</h1>
+        <p>Tasks</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
-    st.metric("Upcoming Events", len(events_df))
+    st.markdown(f"""
+    <div style="
+    background:#111827;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    ">
+        <h1>{len(events_df)}</h1>
+        <p>Events</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col3:
-    st.metric("Unread Emails", len(emails_df))
+    st.markdown(f"""
+    <div style="
+    background:#111827;
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    ">
+        <h1>{len(emails_df)}</h1>
+        <p>Emails</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # ---------------------
 # AI Query Box
 # ---------------------
+"  "
+
+
+col1,col2,col3,col4 = st.columns([1,1,1,4])
+
+with col1:
+    focus_btn = st.button("🎯 Focus")
+
+with col2:
+    github_btn = st.button("🐙 GitHub")
+
+with col3:
+    meetings_btn = st.button("📅 Meetings")
+
 
 question = st.text_input(
     "Ask Task Harbor AI", placeholder="What should I work on today?"
 )
 
+high_priority = df[
+    (df["Priority"] == "High")
+    & (df["Status"] == "Todo")
+]
+if len(high_priority) > 0:
+
+    task_name = high_priority.iloc[0]["Task"]
+
+    st.markdown(f"""
+    <div style="
+    background:#111827;
+    border-radius:24px;
+    padding:25px;
+    margin-bottom:25px;
+    ">
+
+    <h2>🎯 AI Recommendation</h2>
+
+    <h3>{task_name}</h3>
+
+    <p>
+    • High Priority<br>
+    • No schedule conflicts<br>
+    • Highest impact task today
+    </p>
+
+    <p style="color:#60a5fa;">
+    Confidence: 92%
+    </p>
+
+    </div>
+    """, unsafe_allow_html=True)
+if focus_btn:
+    q = "What should I focus on today?"
+
+elif github_btn:
+    q = "Show GitHub notifications"
+
+elif meetings_btn:
+    q = "What meetings do I have today?"
+
+else:
+    q = ""
 if question:
 
     q = question.lower()

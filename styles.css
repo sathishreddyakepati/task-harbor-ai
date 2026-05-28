@@ -1,0 +1,47 @@
+/* Main Background */
+.stApp {
+    background-color: #0B1220;
+}
+
+/* Hero Card */
+.hero-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+/* Search Card */
+.search-card {
+    background: #111827;
+    border: 2px solid #2563eb;
+    border-radius: 24px;
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Recommendation Card */
+.recommend-card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    border-radius: 24px;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+/* Connection Badges */
+.badge {
+    display:inline-block;
+    padding:8px 16px;
+    border-radius:20px;
+    background:#111827;
+    border:1px solid #1f2937;
+    margin-left:10px;
+}
+
+.coral {
+    background:#ff8c66;
+    color:white;
+}
