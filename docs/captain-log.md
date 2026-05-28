@@ -134,7 +134,47 @@ Upcoming:
 🎯 Smart Recommendations
 
 ---
+# Captain's Log – Day 4
 
-## Screenshots
+## Problem Statement
 
-(Add screenshots here later)
+Managing tasks, schedules, and important communications across different platforms creates context switching and reduces productivity.
+
+## Solution
+
+Task Harbor AI aims to unify productivity workflows by bringing together tasks, calendar events, and email updates into a single dashboard with intelligent recommendations.
+
+## What We Built Today
+
+* Integrated Google Calendar API
+* Integrated Gmail API
+* Added GitHub email notification filtering
+* Built an AI Recommendation Engine
+* Improved dashboard functionality
+* Pushed Day 4 updates to GitHub
+
+## Challenges
+
+* Coral Notion source installation completed successfully
+* Coral can access Notion metadata tables
+* Encountered authentication issues while testing Notion search queries
+* Currently investigating connector permissions and configuration
+
+## Next Steps
+
+* Improve dashboard UI and user experience
+* Add smarter recommendation logic
+* Record project demo video
+* Finalize documentation and submission assets
+* Continue Coral integration exploration
+
+## Status
+
+Day 4 Complete ✅
+
+* Notion Integration
+* Google Calendar Integration
+* Gmail Integration
+* AI Recommendations
+* Coral Setup
+
