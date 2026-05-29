@@ -178,3 +178,111 @@ Day 4 Complete ✅
 * AI Recommendations
 * Coral Setup
 
+# Captain's Log — Day 5 (Submission Day)
+
+## Problem Statement
+
+Task Harbor AI was feature-complete, but the project still needed final polishing before submission. The main challenges were improving the user experience, validating Coral integrations, documenting the architecture, recording a concise demo, and preparing the repository for judging.
+
+---
+
+## Solution
+
+We focused on transforming Task Harbor AI from a working prototype into a polished hackathon submission.
+
+The goal was to ensure that every major Coral capability was clearly demonstrated through the dashboard, architecture, demo video, and documentation.
+
+---
+
+## What We Built Today
+
+### 🚀 Final UI Polish
+
+* Replaced the Task Harbor AI logo icon with a rocket symbol.
+* Added dynamic greeting icons based on time of day.
+* Improved card glow and visual separation across the dashboard.
+* Refined Coral branding usage throughout the interface.
+
+### 🪸 Coral SQL Insight Improvements
+
+* Fixed duplicate Coral SQL insight records.
+* Grouped related GitHub activities under a single Coral SQL insight.
+* Improved clarity of cross-source join results.
+
+### 🎥 Demo Video
+
+* Recorded the complete Task Harbor AI workflow.
+* Demonstrated:
+
+  * Dashboard
+  * Focus Recommendations
+  * Unread Emails
+  * Calendar Schedule
+  * GitHub Activity
+  * Coral SQL Insights
+  * Schema Explorer
+  * Workspace Settings
+* Added architecture explanation and tech stack overview.
+* Edited and exported the final submission video.
+
+### 🏗️ Architecture Documentation
+
+* Created the final architecture diagram.
+* Documented:
+
+  * Coral MCP integrations
+  * Coral SQL Engine
+  * Cross-Source Joins
+  * Schema Discovery
+  * Query Caching
+  * Multi-Source Reasoning
+  * Coral Copilot Insights
+
+### 📚 README Overhaul
+
+* Rewrote the README from scratch.
+* Added:
+
+  * Problem Statement
+  * Solution
+  * Architecture
+  * Coral Feature Mapping
+  * Screenshots
+  * Installation Guide
+  * Demo Video
+  * Project Structure
+
+### 🌳 Repository Finalization
+
+* Merged all completed work into the main branch.
+* Verified clean repository state.
+* Uploaded screenshots and documentation assets.
+* Prepared the repository for Coral Hackathon judging.
+
+---
+
+## Challenges
+
+* Ensuring Coral SQL joins clearly demonstrated cross-source reasoning rather than simple data retrieval.
+* Reducing duplicate insight records while preserving useful activity context.
+* Keeping the demo concise while covering architecture, Coral features, and product functionality.
+* Creating documentation that accurately reflected the final implementation.
+
+---
+
+## Next Steps
+
+* Publish the final Captain's Log blog post.
+* Complete Coral Hackathon submission.
+* Share the project publicly.
+* Gather feedback from judges and the community.
+* Continue improving Task Harbor AI beyond the hackathon.
+
+---
+
+## Day 5 Summary
+
+Task Harbor AI officially reached submission-ready status.
+
+The project now demonstrates Coral MCP integration, Coral SQL querying, Cross-Source Joins, Schema Discovery, Query Caching, and Multi-Source Reasoning through a polished productivity workspace experience.
+
